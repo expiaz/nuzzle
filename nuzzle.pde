@@ -57,7 +57,7 @@ color wallColor, pointColor, playerColor, ennemiColor;
 
 void setup(){
   size(1000,600);
-  
+
   /* COLOR SCHEME */
   bgColor = color(230);
   wallColor = color(128,214,255);
@@ -65,7 +65,7 @@ void setup(){
   pointColor = color(250,181,122);
   ennemiColor = color(240,104,104);
   GameState = "BEFORE_GAME";
-  
+
 
   /*
   * GLOBAL CONSTANTS FOR WALLMANAGER
@@ -74,47 +74,47 @@ void setup(){
   B_WT_Y = 0;
   B_WT_W = Wall.TAILLE;
   B_WT_H = height/2-Wall.BASE_GAP/2;
-  
+
   B_WB_X = width/2-Wall.TAILLE/2;
   B_WB_Y = height/2+Wall.BASE_GAP/2;
   B_WB_W = Wall.TAILLE;
   B_WB_H = height-(height/2+Wall.BASE_GAP/2);
-  
+
   B_WR_X = width/2+Wall.BASE_GAP/2;
   B_WR_Y = height/2-Wall.TAILLE/2;
   B_WR_W = width-(width/2+Wall.BASE_GAP/2);
   B_WR_H = Wall.TAILLE;
-  
+
   B_WL_X = 0;
   B_WL_Y = height/2-Wall.TAILLE/2;
   B_WL_W = width/2-Wall.BASE_GAP/2;
   B_WL_H = Wall.TAILLE;
-  
-  
+
+
   /*
   * INSTANCIATIONS
   */
-  
+
   //timer
   timer = new Timer();
-  
+
   //player
   player = new Player(playerColor);
-  
+
   //walls
   wallCollection = new WallManager(1,1,1,1,0, wallColor);
-  
+
   //ennemis
   ennemiCollection = new EnnemiManager(ennemiColor);
-  
+
   //points
   pointCollection = new PointManager(pointColor);
   pointCollection.create(timer.getTime(),points,1,false);
-  
-  
+
+
   h= height;
   w = width;
-  
+
   life = 5;
   points = 0;
 }
@@ -162,28 +162,28 @@ void init(){
 void play(){
   timer.play();
   background(bgColor);
-  
+
   //WALLS
   wallCollection.move(true, 1.5, true, 1.5, true, 0, true, 0);
   wallCollection.gapMove(true,true,true,true);
- 
+
   wallCollection.gapModifier(0.1,0.1);
   //wallCollection.moveModifier(0.5,0.5,0,0);
   wallCollection.dessiner();
-  
+
   // ENNEMIS
   ennemiCollection.create(timer.getTime());
   ennemiCollection.move();
-  
+
   // POINTS
   pointCollection.dessiner(timer.getTime());
-  
+
   // PLAYER INTERACTIONS
   player.move();
-  
+
   // HITBOX
   hitbox();
-  
+
   // DISPLAY
   text("VIES "+life, 10,25);
   text("POINTS "+points, width-100,25);
@@ -193,7 +193,7 @@ void play(){
 * WAIT_REVIVE
 */
 void wait_revive(){
-  timer.pause();  
+  timer.pause();
 }
 
 /*
@@ -252,7 +252,7 @@ void keyPressed() {
     else if(keyCode == 68 || keyCode == 39)
       player.rightPressed = true;
   }
-  
+
   if(keyCode == 80 || keyCode == 32)
     if(GameState == "IN_GAME")
       GameState = "PAUSED";
@@ -321,7 +321,7 @@ void hitbox(){
   else if(nb_pts > 100){
     life -= nb_pts - 100;
   }
-  
+
   /*
   switch(pointCollection.hitbox(player,timer.getTime(),points)){
     case "0":
@@ -339,7 +339,7 @@ void hitbox(){
       break;
   }
   */
-  
+
   if(player.OOB() || ennemiCollection.hitbox(player) || wallCollection.hitbox(player)){
     life --;
     GameState = "WAIT_REVIVE";
