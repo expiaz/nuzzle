@@ -4,16 +4,16 @@ public class WallManager{
   ArrayList<Wall> WR;
   ArrayList<Wall> WL;
   int i, appW, appH;
- 
+
   WallManager(int T, int R, int B, int L, int ecart, color basicColor){
     this.WT = new ArrayList<Wall>();
     this.WB = new ArrayList<Wall>();
     this.WR = new ArrayList<Wall>();
     this.WL = new ArrayList<Wall>();
-    
+
     this.appW = width;
     this.appH = height;
-    
+
     for(this.i = 0; this.i < T; this.i++){
       // murs du haut
       Wall wl = new Wall(B_WT_X,B_WT_Y,B_WT_W,B_WT_H, basicColor);
@@ -47,7 +47,7 @@ public class WallManager{
       this.add(wl,4);
     }
   }
-  
+
   public void add(Wall wall, int position){
     switch(position){
       case(1):
@@ -67,7 +67,7 @@ public class WallManager{
         break;
     }
   }
-  
+
   public void dessiner(){
     for(Wall wl : WT){
       wl.dessiner();
@@ -81,8 +81,8 @@ public class WallManager{
     for(Wall wl : WR){
       wl.dessiner();
     }
-  } 
-  
+  }
+
   public boolean hitbox(Player p){
     ArrayList<Wall> Collection = new ArrayList<Wall>();
     Collection.addAll(WT);
@@ -96,88 +96,88 @@ public class WallManager{
     }
     return false;
   }
-  
-  
+
+
   /************************************
   *************************************
   *            DEPLACEMENT            *
   *************************************
   *************************************/
-  
+
   public void move(boolean top, float top_s, boolean right, float right_s, boolean bottom, float bottom_s, boolean left, float left_s){
     // top_s .. var are for setting the velocity in pixels (basic 1) of the deplacement manually
-    
+
     if(top && right && bottom && left){
-      
+
       // all walls moves
       for(Wall wl : WT){ //top
         if(wl.x <= 0 && wl.deplacement < 0){
           wl.deplacement = abs(wl.deplacement);
-          if(top_s != 0){ 
+          if(top_s != 0){
             wl.deplacement = top_s;
           }
         }
         else if(wl.x >= appW-wl.w && wl.deplacement > 0){
           wl.deplacement = - wl.deplacement;
-          if(top_s != 0){ 
+          if(top_s != 0){
             wl.deplacement = - top_s;
           }
         }
         wl.move(true,false);
       }
-      
+
       for(Wall wl : WB){ //bottom
         if(wl.x <= 0 && wl.deplacement < 0){
           wl.deplacement = abs(wl.deplacement);
-          if(bottom_s != 0){ 
+          if(bottom_s != 0){
             wl.deplacement = bottom_s;
           }
         }
         else if(wl.x >= appW-wl.w && wl.deplacement > 0){
           wl.deplacement = - wl.deplacement;
-          if(bottom_s != 0){ 
+          if(bottom_s != 0){
             wl.deplacement = - bottom_s;
           }
         }
         wl.move(true,false);
       }
-      
+
       for(Wall wl : WL){ //left
         if(wl.y <= 0 && wl.deplacement < 0){
           wl.deplacement = abs(wl.deplacement);
-          if(left_s != 0){ 
+          if(left_s != 0){
             wl.deplacement = left_s;
           }
         }
         else if(wl.y >= appH-wl.h && wl.deplacement > 0){
           wl.deplacement = - wl.deplacement;
-          if(left_s != 0){ 
+          if(left_s != 0){
             wl.deplacement = - left_s;
           }
         }
         wl.move(false,true);
       }
-      
+
       for(Wall wl : WR){ //right
         if(wl.y <= 0 && wl.deplacement < 0){
           wl.deplacement = abs(wl.deplacement);
-          if(right_s != 0){ 
+          if(right_s != 0){
             wl.deplacement = right_s;
           }
         }
         if(wl.y >= appH-wl.h && wl.deplacement > 0){
           wl.deplacement = - wl.deplacement;
-          if(right_s != 0){ 
+          if(right_s != 0){
             wl.deplacement = -right_s;
           }
         }
         wl.move(false,true);
       }
-      
+
     }//endif
-    
+
     else{
-      
+
       if(top){
         for(Wall wl : WT){ //top
           if(wl.x <= 0 && wl.deplacement < 0){
@@ -194,7 +194,7 @@ public class WallManager{
           wl.move(false,false);
         }
       }
-      
+
       if(right){
         for(Wall wl : WR){ //right
           if(wl.y <= 0 && wl.deplacement < 0){
@@ -211,7 +211,7 @@ public class WallManager{
           wl.move(false,false);
         }
       }
-      
+
       if(bottom){
         for(Wall wl : WB){ //bottom
           if(wl.x <= 0 && wl.deplacement < 0){
@@ -228,7 +228,7 @@ public class WallManager{
           wl.move(false,false);
         }
       }
-      
+
       if(left){
         for(Wall wl : WL){ //left
           if(wl.y <= 0 && wl.deplacement < 0){
@@ -245,16 +245,16 @@ public class WallManager{
           wl.move(false,false);
         }
       }
-      
+
     }//endelse
-    
+
   }
-  
-  
+
+
   public void gapMove(boolean top, boolean right, boolean bottom, boolean left){
-    
+
     if(top && right && bottom && left){
-      
+
       for(Wall wl : WT){ //top
         if(wl.h <= 0 && wl.depla_gap < 0){ //haut
           wl.depla_gap = abs(wl.depla_gap);
@@ -262,9 +262,9 @@ public class WallManager{
         if(wl.h >= appH-wl.gap && wl.depla_gap > 0){ //bas
           wl.depla_gap = - wl.depla_gap;
         }
-        wl.gap(false,true,false);
+        wl.gap_move(false,true,false);
       }
-      
+
       for(Wall wl : WB){ //bottom
         if(wl.y <= 0 + wl.gap && wl.depla_gap < 0){ // haut
           wl.depla_gap = abs(wl.depla_gap);
@@ -272,9 +272,9 @@ public class WallManager{
         if(wl.y >= appH && wl.depla_gap > 0){ //bas
           wl.depla_gap = - wl.depla_gap;
         }
-        wl.gap(false,true,true);
+        wl.gap_move(false,true,true);
       }
-      
+
       for(Wall wl : WL){ //left
         if(wl.w <= 0 && wl.depla_gap < 0){ // haut
           wl.depla_gap = abs(wl.depla_gap);
@@ -282,9 +282,9 @@ public class WallManager{
         if(wl.w >= appW-wl.gap && wl.depla_gap > 0){ //bas
           wl.depla_gap = - wl.depla_gap;
         }
-        wl.gap(true,false,false);
+        wl.gap_move(true,false,false);
       }
-      
+
       for(Wall wl : WR){ //right
         if(wl.x <= 0+wl.gap && wl.depla_gap < 0){
           wl.depla_gap = abs(wl.depla_gap);
@@ -292,13 +292,13 @@ public class WallManager{
         if(wl.x >= appW && wl.depla_gap > 0){
           wl.depla_gap = - wl.depla_gap;
         }
-        wl.gap(true,false,true);
+        wl.gap_move(true,false,true);
       }
-      
+
     }//endif
-    
+
     else{
-      
+
       if(top){
         for(Wall wl : WT){ //top
           if(wl.h <= 0 && wl.depla_gap < 0){ //haut
@@ -307,15 +307,15 @@ public class WallManager{
           if(wl.h >= appH-wl.gap && wl.depla_gap > 0){ //bas
             wl.depla_gap = - wl.depla_gap;
           }
-          wl.gap(false,true,false);
+          wl.gap_move(false,true,false);
         }
       }
       else{
         for(Wall wl : WT){ //top
-          wl.gap(false,true,false);
+          wl.gap_move(false,true,false);
         }
       }//top
-      
+
       if(right){
         for(Wall wl : WR){ //right
           if(wl.x <= 0+wl.gap && wl.depla_gap < 0){
@@ -324,15 +324,15 @@ public class WallManager{
           if(wl.x >= appW && wl.depla_gap > 0){
             wl.depla_gap = - wl.depla_gap;
           }
-          wl.gap(true,false,true);
+          wl.gap_move(true,false,true);
         }
       }
       else{
         for(Wall wl : WR){ //right
-          wl.gap(false,false,false);
+          wl.gap_move(false,false,false);
         }
       }//right
-      
+
       if(bottom){
         for(Wall wl : WB){ //bottom
           if(wl.y <= 0 + wl.gap && wl.depla_gap < 0){ // haut
@@ -341,15 +341,15 @@ public class WallManager{
           if(wl.y >= appH && wl.depla_gap > 0){ //bas
             wl.depla_gap = - wl.depla_gap;
           }
-          wl.gap(false,true,true);
+          wl.gap_move(false,true,true);
         }
       }
       else{
         for(Wall wl : WB){ //bottom
-          wl.gap(false,false,false);
+          wl.gap_move(false,false,false);
         }
       }//bottom
-      
+
       if(left){
         for(Wall wl : WL){ //left
           if(wl.w <= 0 && wl.depla_gap < 0){ // haut
@@ -358,29 +358,29 @@ public class WallManager{
           if(wl.w >= appW-wl.gap && wl.depla_gap > 0){ //bas
             wl.depla_gap = - wl.depla_gap;
           }
-          wl.gap(true,false,false);
+          wl.gap_move(true,false,false);
         }
       }
       else{
         for(Wall wl : WL){ //left
-          wl.gap(false,false,false);
+          wl.gap_move(false,false,false);
         }
       }//left
-      
+
     }//endelse
-     
+
   }
-  
-  
-  
-  
-  
+
+
+
+
+
   /************************************
   *************************************
   *         DESYNCHRONISATION         *
   *************************************
   *************************************/
-  
+
   public void gapModifier(float Vertical, float Horizontal){
     if(Horizontal != 0){
       for(Wall wl : WL){
@@ -399,7 +399,7 @@ public class WallManager{
       }
     }
   }
-  
+
   public void moveModifier(float T, float R, float B, float L){
     if(T!=0){
       for(Wall wl : WT){
@@ -422,5 +422,5 @@ public class WallManager{
       }
     }
   }
-  
+
 }
